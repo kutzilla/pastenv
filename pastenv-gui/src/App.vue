@@ -1,17 +1,19 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <NavigationBar />
+  <ClipBoard />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import NavigationBar from "./components/NavigationBar.vue";
+import ClipBoard from "./components/ClipBoard.vue";
 
 export default {
-  name: 'App',
+  name: "PastenvGui",
   components: {
-    HelloWorld
-  }
-}
+    ClipBoard,
+    NavigationBar,
+  },
+};
 </script>
 
 <style>
@@ -21,6 +23,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
