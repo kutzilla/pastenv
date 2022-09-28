@@ -1,26 +1,31 @@
-import { Client } from '@stomp/stompjs';
+import Http from 'http';
+import { WebSocket, WebSocketServer } from 'ws';
 
-const client = new Client({
-    brokerURL: 'ws://localhost:15674/ws',
-    debug (str) {
-      console.info(str);
-    },
-    reconnectDelay: 5000,
-    heartbeatIncoming: 4000,
-    heartbeatOutgoing: 4000,
+const port = 15674;
+const path = '/pastenv';
+
+const server = Http.createServer();
+
+const wss = new WebSocketServer({
+  path,
+  server
+});
+
+wss.on('connection', ws => {
+
+  console.log('New client connected');
+
+  ws.on('message', data => {
+    console.log(`Received : ${data}`);
+
+    ws.send('Hello from Server!')
   });
 
-  client.onConnect = (frame) => {
-    console.log('Received ' + frame.body);
-  };
+  ws.on('close', () => {
+    console.log(`Connection closed by client`);
+  });
+});
 
-  client.onStompError = (frame) => {
-    // Will be invoked in case of error encountered at Broker
-    // Bad login/passcode typically will cause an error
-    // Complaint brokers will set `message` header with a brief message. Body may contain details.
-    // Compliant brokers will terminate the connection after any error
-    console.log('Broker reported error: ' + frame.headers.message);
-    console.log('Additional details: ' + frame.body);
-  };
 
-  client.activate();
+server.listen(port);
+
