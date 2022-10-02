@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 
-const ws = new WebSocket('ws://localhost:15674/pastenv');
+const ws = new WebSocket('ws://localhost:15674/stomp');
 
 ws.on('open', () => {
   ws.send('Hello from Client!');

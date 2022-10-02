@@ -47,6 +47,5 @@ wss.on('connection', ws => {
   });
 });
 
-
 server.listen(port);
-
+console.log('Started pastenv-api');
