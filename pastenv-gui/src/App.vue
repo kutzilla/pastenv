@@ -3,17 +3,18 @@
   <ClipBoard />
 </template>
 
-<script>
-import NavigationBar from "./components/NavigationBar.vue";
-import ClipBoard from "./components/ClipBoard.vue";
+<script lang="ts">
+import { Options, Vue } from 'vue-class-component';
+import NavigationBar from './components/NavigationBar.vue';
+import ClipBoard from './components/ClipBoard.vue';
 
-export default {
-  name: "PastenvGui",
+@Options({
   components: {
-    ClipBoard,
     NavigationBar,
+    ClipBoard
   },
-};
+})
+export default class App extends Vue {}
 </script>
 
 <style>
@@ -23,5 +24,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  margin-top: 60px;
 }
 </style>

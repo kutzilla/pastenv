@@ -3,7 +3,7 @@
     <h1>Clipboard</h1>
     <p>Paste your stuff here.</p>
     <ul class="entry-list">
-      <li class="entry" v-for="e in entrys" :key="e.text">{{e.text}}</li>
+      <li class="entry" v-for="e in entrys" :key="e">{{e}}</li>
     </ul>
     <input class="new-entry-field" placeholder="Enter your stuff here." v-model="newEntry" v-on:keyup.enter="sendMessage(newEntry)" />
   </div>
@@ -32,42 +32,45 @@ input.new-entry-field {
   
 }
 </style>
-<script>
-export default {
-  name: "ClipBoard",
-    data() {
-    return {
-      ws: null,
-      newEntry: '',
-      entrys: []
-    }
-  },
-  methods: {
-    addEntry(entry) {
-      this.entrys.push({text: entry});
-      this.newEntry = ''
-    },
-    sendMessage(message) {
-      console.log('Sending ' + message)
-      this.ws.send(message);
-    }
-  },
-  created: function() {
-    console.log('Starting connection to pastenv-api');
-    this.ws = new WebSocket('ws://0.0.0.0:15674/pastenv');
+<script lang="ts">
+import { Vue } from 'vue-class-component';
 
-    this.ws.onopen = function(event) {
-      console.log(event)
-      console.log("Successfully connected to pastenv server")
+export default class ClipBoard extends Vue {
+
+  ws : WebSocket = new WebSocket('ws://localhost:15674/pastenv');
+  newEntry = '';
+  entrys = [] as string[];
+
+  addEntry(entry: string) {
+    console.log('Adding' + entry);
+    this.entrys.push(entry);
+    this.newEntry = ''
+  }
+
+  sendMessage(message: string) {
+    console.log(`Sending ${message}`);
+    this.ws.send(message);
+  }
+  mounted() {
+
+
+    console.log('Starting connection to pastenv-api');
+
+    this.ws.onopen = (event) => {
+      console.log(event);
+      console.log("Successfully connected to pastenv server");
     };
 
-    var addEntry = this.addEntry
+    var addEntry = this.addEntry;
+    this.ws.onmessage = (message: MessageEvent) => {
+      this.ws.binaryType = 'arraybuffer';
+      const fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(message.data);
 
-    this.ws.addEventListener('message', (message) => {
-      console.log('Recevied ' + message.data)
-      addEntry(message.data)
-    });
-  },
-
-};
+      var messageData = fileReader.result!.toString();
+      console.log('Recevied ' + messageData);
+      addEntry(messageData)
+    };
+  }
+}
 </script>
