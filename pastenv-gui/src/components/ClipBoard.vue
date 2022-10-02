@@ -5,7 +5,7 @@
     <ul class="entry-list">
       <li class="entry" v-for="e in entrys" :key="e.text">{{e.text}}</li>
     </ul>
-    <input class="new-entry-field" placeholder="Enter your stuff here." v-model="newEntry" v-on:keyup.enter="addEntry(newEntry);sendMessage(newEntry)" />
+    <input class="new-entry-field" placeholder="Enter your stuff here." v-model="newEntry" v-on:keyup.enter="sendMessage(newEntry)" />
   </div>
 </template>
 
@@ -37,7 +37,7 @@ export default {
   name: "ClipBoard",
     data() {
     return {
-      connection: null,
+      ws: null,
       newEntry: '',
       entrys: []
     }
@@ -47,19 +47,26 @@ export default {
       this.entrys.push({text: entry});
       this.newEntry = ''
     },
-    sendMessage: (message) => {
-      console.log(this.connection);
-      this.connection.send(message);
+    sendMessage(message) {
+      console.log('Sending ' + message)
+      this.ws.send(message);
     }
   },
-  created: () => {
+  created: function() {
     console.log('Starting connection to pastenv-api');
-    this.connection = new WebSocket('ws://localhost:15674/pastenv');
+    this.ws = new WebSocket('ws://0.0.0.0:15674/pastenv');
 
-    this.connection.onopen = event => {
-      console.log(event);
-      console.log('Successfully connected to the pastenv api...');
+    this.ws.onopen = function(event) {
+      console.log(event)
+      console.log("Successfully connected to pastenv server")
     };
+
+    var addEntry = this.addEntry
+
+    this.ws.addEventListener('message', (message) => {
+      console.log('Recevied ' + message.data)
+      addEntry(message.data)
+    });
   },
 
 };
