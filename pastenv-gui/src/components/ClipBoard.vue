@@ -9,29 +9,6 @@
   </div>
 </template>
 
-<style>
-ul.entry-list {
-    list-style-type: none;
-    padding-left: 1%;
-    padding-right: 1%;
-    overflow: hidden;
-}
-li.entry {
-  text-align: left;
-  margin-bottom: 1%;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  padding-left: 1%;
-  border: 1px;
-  border-style: solid;
-  background-color: lightgrey;
-}
-input.new-entry-field {
-  width: 97.5%;
-  height: 3em;
-  
-}
-</style>
 <script lang="ts">
 import { Vue } from 'vue-class-component';
 
@@ -70,3 +47,27 @@ export default class ClipBoard extends Vue {
   }
 }
 </script>
+
+<style>
+ul.entry-list {
+    list-style-type: none;
+    padding-left: 1%;
+    padding-right: 1%;
+    overflow: hidden;
+}
+li.entry {
+  text-align: left;
+  margin-bottom: 1%;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 1%;
+  border: 1px;
+  border-style: solid;
+  background-color: lightgrey;
+}
+input.new-entry-field {
+  width: 97.5%;
+  height: 3em;
+  
+}
+</style>
