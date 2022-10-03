@@ -4,24 +4,20 @@
   <ClipBoard v-show="visible"/>
 </template>
 
-<script>
-import NavigationBar from "./components/NavigationBar.vue";
-import ClipBoard from "./components/ClipBoard.vue";
-import ChooseComponent from "./components/ChooseComponent.vue";
+<script lang="ts">
+import { Options, Vue } from 'vue-class-component';
+import NavigationBar from './components/NavigationBar.vue';
+import ChooseComponent from './components/ChooseComponent.vue';
+import ClipBoard from './components/ClipBoard.vue';
 
-export default {
-  name: "PastenvGui",
+@Options({
   components: {
-    ClipBoard,
     NavigationBar,
-    ChooseComponent
+    ChooseComponent,
+    ClipBoard
   },
-  data() {
-    return {
-      visible: true
-    }
-  }
-};
+})
+export default class App extends Vue {}
 </script>
 
 <style>
@@ -31,5 +27,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  margin-top: 60px;
 }
 </style>
