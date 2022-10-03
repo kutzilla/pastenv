@@ -1,7 +1,9 @@
 <template>
-  <NavigationBar />
-  <ChooseCreateOrConnect />
-  <ClipBoard v-show="visible"/>
+  <div>
+    <NavigationBar />
+    <ChooseCreateOrConnect />
+    <ClipBoard v-show="visible"/>
+  </div>
 </template>
 
 <script lang="ts">

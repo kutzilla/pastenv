@@ -1,15 +1,17 @@
 <template>
-    <div id="choose-create-or-connect">
-    <ul id="choose-list">
-        <li id="createButton" class="chooseButton"><a>Create a new paste environment</a></li>
-        <li id="connectButton" class="chooseButton"><a>Connect to an existing paste environment</a></li>
-    </ul>
+    <div>
+        <input type="button" value="switch" v-on:click="create=!create"/>
+        <CreateSession v-if="create" />
+        <ConnectSession v-else/>
     </div>
 </template>
 
 <style>
     #choose-list {
         list-style-type: none; 
+        border: solid;
+        border-width: 1px;
+        border-radius: 10px;
     }
     #choose-list p {
         text-align: center;
@@ -36,9 +38,27 @@
     }
 </style>
 
-<script>
-  import { Vue } from 'vue-class-component';  
+<script lang='ts'>
+  import { Options, Vue } from 'vue-class-component';
+  import CreateSession from './CreateSession.vue';
+  import ConnectSession from './ConnectSession.vue';
+  @Options({
+    components: {
+        CreateSession,
+        ConnectSession
+    }
+  })
   export default class ChooseCreateOrConnect extends Vue {
+
+    create = true;
+
+    createMode() {
+        this.create = true;
+    }
+
+    connectMode() {
+        this.create = false;
+    }
 
   }
 </script>
