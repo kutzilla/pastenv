@@ -42,7 +42,7 @@ export default class ClipBoard extends Vue {
   entrys = [] as string[];
 
   addEntry(entry: string) {
-    console.log('Adding' + entry);
+    console.log(`Adding ${entry}`);
     this.entrys.push(entry);
     this.newEntry = ''
   }
@@ -63,11 +63,7 @@ export default class ClipBoard extends Vue {
 
     var addEntry = this.addEntry;
     this.ws.onmessage = (message: MessageEvent) => {
-      this.ws.binaryType = 'arraybuffer';
-      const fileReader = new FileReader();
-      fileReader.readAsArrayBuffer(message.data);
-
-      var messageData = fileReader.result!.toString();
+      var messageData = message.data;
       console.log('Recevied ' + messageData);
       addEntry(messageData)
     };

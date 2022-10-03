@@ -28,10 +28,13 @@ wss.on('connection', ws => {
 
   ws.on('message', data => {
     console.log(`Received : ${data} and send it to all clients`);
-    messages.push(data.toString());
+
+    const dataAsString = data.toString();
+
+    messages.push(dataAsString);
 
     webSockets.forEach(i => {
-      i.send(data);
+      i.send(dataAsString);
     });
   });
 
